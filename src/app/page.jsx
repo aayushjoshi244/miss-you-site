@@ -13,6 +13,7 @@ import MusicPlayer from "@/components/MusicPlayer"
 import Myeyes from "@/components/Myeyes"
 
 export default function Home() {
+  const TOTAL_SCREENS = 6 // indexes: 0..5
   const [currentScreen, setCurrentScreen] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [musicPlaying, setMusicPlaying] = useState(false)
@@ -27,16 +28,13 @@ export default function Home() {
 
   const nextScreen = () => {
     if (currentScreen === 0) {
-      // reveal the player and start music only after the first user interaction
       setShowMusicControl(true)
       setMusicPlaying(true)
     }
-    setCurrentScreen((prev) => (prev + 1) % 5)
+    setCurrentScreen((prev) => (prev + 1) % TOTAL_SCREENS) // <-- was % 5
   }
 
-  if (isLoading) {
-    return <Loader />
-  }
+  if (isLoading) return <Loader />
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden font-cute">
