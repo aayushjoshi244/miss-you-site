@@ -46,7 +46,7 @@ export default function MissCounterScreen({ onNext, ...motionProps }) {
           animate={{ scale: 1 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="mb-4"><img src="/gifs/crying.gif" alt="cry gif" className="w-48" /></div>
+          <div className="mb-4"><img src="/gifs/hug.gif" alt="hug gif" className="w-58" /></div>
         </motion.div>
 
         <motion.h2
@@ -55,7 +55,7 @@ export default function MissCounterScreen({ onNext, ...motionProps }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          I miss you...
+          May god fill this much...
         </motion.h2>
 
         <motion.div
@@ -78,7 +78,7 @@ export default function MissCounterScreen({ onNext, ...motionProps }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
         >
-          {showInfinity ? "times… and forever more" : "times every moment"}
+          {showInfinity ? "happiness… and forever more" : "times every moment"}
         </motion.p>
 
         <motion.button

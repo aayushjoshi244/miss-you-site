@@ -31,7 +31,8 @@ export default function WelcomeScreen({ onNext, ...motionProps }) {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.9 }}
                 >
-                    Do you even know how much I miss you?
+                    Do you even know what occassion it is?
+                    <br />Wanna know then👇
                 </motion.p>
 
                 <motion.div

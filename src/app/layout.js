@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: " I Miss Youu",
+  title: "Birthday of my Special one 💋",
   description: "A special message for someone very special",
 }
 

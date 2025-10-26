@@ -10,6 +10,7 @@ import MemoriesScreen from "@/components/MemoriesScreen"
 import FinalScreen from "@/components/FinalScreen"
 import BackgroundAnimation from "@/components/BackgroundAnimation"
 import MusicPlayer from "@/components/MusicPlayer"
+import Myeyes from "@/components/Myeyes"
 
 export default function Home() {
   const [currentScreen, setCurrentScreen] = useState(0)
@@ -26,6 +27,7 @@ export default function Home() {
 
   const nextScreen = () => {
     if (currentScreen === 0) {
+      // reveal the player and start music only after the first user interaction
       setShowMusicControl(true)
       setMusicPlaying(true)
     }
@@ -40,10 +42,12 @@ export default function Home() {
     <div className="min-h-screen bg-black relative overflow-hidden font-cute">
       <BackgroundAnimation />
 
-      {/* For background song */}
-      {/* {showMusicControl && (
-        <MusicPlayer musicPlaying={musicPlaying} />
-      )} */}
+      {/* Background song */}
+      {showMusicControl && (
+        <div className="fixed top-4 right-4 z-50">
+          <MusicPlayer musicPlaying={musicPlaying} />
+        </div>
+      )}
 
       <AnimatePresence mode="wait">
         {currentScreen === 0 && (
@@ -77,6 +81,16 @@ export default function Home() {
           />
         )}
         {currentScreen === 3 && (
+          <Myeyes
+            key="eyes"
+            onNext={nextScreen}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          />
+        )}
+        {currentScreen === 4 && (
           <MemoriesScreen
             key="memories"
             onNext={nextScreen}
@@ -86,7 +100,7 @@ export default function Home() {
             transition={{ duration: 0.6, ease: "easeInOut" }}
           />
         )}
-        {currentScreen === 4 && (
+        {currentScreen === 5 && (
           <FinalScreen
             key="final"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -100,11 +114,9 @@ export default function Home() {
       <motion.div
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{
-          duration: 0.5,
-          delay: 1,
-        }}
-        className="fixed bottom-4 right-4 text-xs text-white/40 pointer-events-none select-none z-50 font-light">
+        transition={{ duration: 0.5, delay: 1 }}
+        className="fixed bottom-4 right-4 text-xs text-white/40 pointer-events-none select-none z-50 font-light"
+      >
         @anujbuilds
       </motion.div>
     </div>

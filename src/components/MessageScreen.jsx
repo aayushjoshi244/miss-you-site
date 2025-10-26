@@ -64,7 +64,7 @@ export default function MessageScreen({ onNext, ...motionProps }) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 }}
                     >
-                        Our Memories📸
+                        See through my eyes👀
                     </motion.button>
                 )}
             </div>
