@@ -1,40 +1,41 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "motion/react"
-import Loader from "@/components/Loader"
-import WelcomeScreen from "@/components/WelcomeScreen"
-import MissCounterScreen from "@/components/MissCounterScreen"
-import MessageScreen from "@/components/MessageScreen"
-import MemoriesScreen from "@/components/MemoriesScreen"
-import FinalScreen from "@/components/FinalScreen"
-import BackgroundAnimation from "@/components/BackgroundAnimation"
-import MusicPlayer from "@/components/MusicPlayer"
-import Myeyes from "@/components/Myeyes"
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import Loader from "@/components/Loader";
+import WelcomeScreen from "@/components/WelcomeScreen";
+import MissCounterScreen from "@/components/MissCounterScreen";
+import MessageScreen from "@/components/MessageScreen";
+import MemoriesScreen from "@/components/MemoriesScreen";
+import FinalScreen from "@/components/FinalScreen";
+import BackgroundAnimation from "@/components/BackgroundAnimation";
+import MusicPlayer from "@/components/MusicPlayer";
+import Myeyes from "@/components/Myeyes";
+import Yourmemes from "@/components/Yourmemes";
 
 export default function Home() {
-  const TOTAL_SCREENS = 6 // indexes: 0..5
-  const [currentScreen, setCurrentScreen] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
-  const [musicPlaying, setMusicPlaying] = useState(false)
-  const [showMusicControl, setShowMusicControl] = useState(false)
+  const TOTAL_SCREENS = 7; // indexes: 0..6
+  const [currentScreen, setCurrentScreen] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [musicPlaying, setMusicPlaying] = useState(false);
+  const [showMusicControl, setShowMusicControl] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 4000)
-    return () => clearTimeout(timer)
-  }, [])
+      setIsLoading(false);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const nextScreen = () => {
     if (currentScreen === 0) {
-      setShowMusicControl(true)
-      setMusicPlaying(true)
+      setShowMusicControl(true);
+      setMusicPlaying(true);
     }
-    setCurrentScreen((prev) => (prev + 1) % TOTAL_SCREENS) // <-- was % 5
-  }
+    setCurrentScreen((prev) => (prev + 1) % TOTAL_SCREENS); // <-- was % 5
+  };
 
-  if (isLoading) return <Loader />
+  if (isLoading) return <Loader />;
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden font-cute">
@@ -89,6 +90,17 @@ export default function Home() {
           />
         )}
         {currentScreen === 4 && (
+          <Yourmemes
+            onNext={nextScreen}
+            onPauseMusic={() => setMusicPlaying(false)}
+            onResumeMusic={() => setMusicPlaying(true)}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          />
+        )}
+        {currentScreen === 5 && (
           <MemoriesScreen
             key="memories"
             onNext={nextScreen}
@@ -98,7 +110,7 @@ export default function Home() {
             transition={{ duration: 0.6, ease: "easeInOut" }}
           />
         )}
-        {currentScreen === 5 && (
+        {currentScreen === 6 && (
           <FinalScreen
             key="final"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -118,5 +130,5 @@ export default function Home() {
         @anujbuilds
       </motion.div>
     </div>
-  )
+  );
 }

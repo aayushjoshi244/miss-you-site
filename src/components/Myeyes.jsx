@@ -8,12 +8,12 @@ export default function Myeyes({ onNext, ...motionProps }) {
   /** @type {Array<{id:number,imgSrc:string,title:string,emoji:string,color:string}>} */
   const memories = useMemo(
     () => [
-      { id: 1, imgSrc: "./images/s1.jpg", title: "Our First Date", emoji: "💕", color: "from-pink-400 to-purple-500" },
-      { id: 2, imgSrc: "./images/s2.jpg", title: "That Cute Selfie", emoji: "📸", color: "from-purple-400 to-pink-500" },
-      { id: 3, imgSrc: "./images/s3.jpg", title: "Dancing Together", emoji: "💃", color: "from-blue-400 to-purple-500" },
-      { id: 4, imgSrc: "./images/s4.jpg", title: "Sunset Walks", emoji: "🌅", color: "from-orange-400 to-pink-500" },
-      { id: 5, imgSrc: "./images/s5.jpg", title: "Goofy Moments", emoji: "🤪", color: "from-fuchsia-400 to-rose-500" },
-      { id: 6, imgSrc: "./images/s6.jpg", title: "Lazy Sundays", emoji: "🛋️", color: "from-emerald-400 to-teal-500" },
+      { id: 1, imgSrc: "./images/6.jpg", title: "You are always stunning", emoji: "💕", color: "from-pink-400 to-purple-500" },
+      { id: 2, imgSrc: "./images/7.jpg", title: "Who could beat those beautiful eyes", emoji: "👀", color: "from-purple-400 to-pink-500" },
+      { id: 3, imgSrc: "./images/9.jpg", title: "Always the great achiever", emoji: "🏆", color: "from-blue-400 to-purple-500" },
+      { id: 4, imgSrc: "./images/12.jpg", title: "A perfect teammate", emoji: "🫂", color: "from-orange-400 to-pink-500" },
+      { id: 5, imgSrc: "./images/13.jpg", title: "Goofy Moments", emoji: "🤪", color: "from-fuchsia-400 to-rose-500" },
+      { id: 6, imgSrc: "./images/15.jpg", title: "Will keep on staring", emoji: "🛕", color: "from-emerald-400 to-teal-500" },
     ],
     []
   )
@@ -50,7 +50,7 @@ export default function Myeyes({ onNext, ...motionProps }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.45 }}
       >
-        These memories… they make me miss you even more❤️
+        This how I see you… they make me love you even more❤️
       </motion.p>
 
       {/* 6-card grid: md+ = 3 cols × 2 rows */}
@@ -127,7 +127,7 @@ export default function Myeyes({ onNext, ...motionProps }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2 }}
       >
-        There is something more...✨
+        There is something more...😂
       </motion.button>
     </motion.div>
   )
