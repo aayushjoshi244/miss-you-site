@@ -14,7 +14,7 @@ import Myeyes from "@/components/Myeyes";
 import Yourmemes from "@/components/Yourmemes";
 
 export default function Home() {
-  const TOTAL_SCREENS = 7; // indexes: 0..6
+  const TOTAL_SCREENS = 7; 
   const [currentScreen, setCurrentScreen] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -32,7 +32,7 @@ export default function Home() {
       setShowMusicControl(true);
       setMusicPlaying(true);
     }
-    setCurrentScreen((prev) => (prev + 1) % TOTAL_SCREENS); // <-- was % 5
+    setCurrentScreen((prev) => (prev + 1) % TOTAL_SCREENS); 
   };
 
   if (isLoading) return <Loader />;

@@ -10,8 +10,7 @@ export default function Yourmeme({ onNext, onPauseMusic, onResumeMusic, ...motio
     return () => onResumeMusic?.()
   }, [onPauseMusic, onResumeMusic])
 
-  // Put your videos under /public/reels/*.mp4 and posters under /public/images/*.jpg
-  /** @type {Array<{id:number,src:string,poster?:string,title:string,emoji:string,color:string}>} */
+  /** @type {Array<{id:number,src:string,title:string,emoji:string,color:string}>} */
   const reels = useMemo(
     () => [
       { id: 1, src: "/reels/1.mp4", title: "Midnight giggles",       emoji: "🌙", color: "from-pink-400 to-purple-500" },
@@ -24,8 +23,13 @@ export default function Yourmeme({ onNext, onPauseMusic, onResumeMusic, ...motio
     []
   )
 
-  const videoRefs = useRef([])                             // HTMLVideoElement[] (one per card)
-  const [unmutedIds, setUnmutedIds] = useState(new Set()) // which cards are allowed to play with sound
+  const videoRefs = useRef([])                             // one ref per grid video
+  const [unmutedIds, setUnmutedIds] = useState(new Set()) // which grid cards are unmuted
+
+  // Special video modal state
+  const [showSpecial, setShowSpecial] = useState(false)
+  const specialRef = useRef(null)
+  const [specialNeedsUserPlay, setSpecialNeedsUserPlay] = useState(false)
 
   const playMuted = (idx) => {
     const v = videoRefs.current[idx]
@@ -42,14 +46,11 @@ export default function Yourmeme({ onNext, onPauseMusic, onResumeMusic, ...motio
     const v = videoRefs.current[idx]
     if (!v) return
     v.pause()
-    // v.currentTime = 0 // uncomment if you want to reset on hover-out
   }
 
-  // Desktop: hover to (auto)play (muted or unmuted if user enabled)
   const handleHoverStart = (idx) => playMuted(idx)
   const handleHoverEnd   = (idx) => pauseVideo(idx)
 
-  // Mobile: tap toggles play/pause (keeps current mute state)
   const handleTapToggle = (idx) => {
     const v = videoRefs.current[idx]
     if (!v) return
@@ -64,12 +65,10 @@ export default function Yourmeme({ onNext, onPauseMusic, onResumeMusic, ...motio
     }
   }
 
-  // Explicit user gesture to allow sound on this card
   const handleUnmute = (idx) => {
     const v = videoRefs.current[idx]
     if (!v) return
-    // Pause site music immediately when enabling video sound
-    onPauseMusic?.()
+    onPauseMusic?.() // pause site music immediately when enabling video sound
     setUnmutedIds(prev => {
       const next = new Set(prev)
       next.add(idx)
@@ -78,6 +77,47 @@ export default function Yourmeme({ onNext, onPauseMusic, onResumeMusic, ...motio
     v.muted = false
     v.volume = 1
     v.play().catch(() => {})
+  }
+
+  // Open modal and try to autoplay special with sound (CTA click = user gesture)
+  const openSpecial = async () => {
+    setShowSpecial(true)
+    setSpecialNeedsUserPlay(false)
+
+    // Give React a tick to render the modal & video
+    requestAnimationFrame(async () => {
+      const v = specialRef.current
+      if (!v) return
+      try {
+        v.playsInline = true
+        v.loop = false
+        v.muted = false
+        v.volume = 1
+        await v.play()               // should succeed due to the click gesture on CTA
+      } catch {
+        // If it fails (Safari/iOS quirk), require a user tap to start
+        setSpecialNeedsUserPlay(true)
+      }
+    })
+  }
+
+  const manualPlaySpecial = async () => {
+    const v = specialRef.current
+    if (!v) return
+    try {
+      v.muted = false
+      v.volume = 1
+      await v.play()
+      setSpecialNeedsUserPlay(false)
+    } catch {
+      // if this still fails, show controls to let user press native play
+      v.controls = true
+    }
+  }
+
+  const onSpecialEnded = () => {
+    setShowSpecial(false)
+    onNext?.()
   }
 
   return (
@@ -148,7 +188,6 @@ export default function Yourmeme({ onNext, onPauseMusic, onResumeMusic, ...motio
                 <video
                   ref={(el) => (videoRefs.current[idx] = el)}
                   src={reel.src}
-                  poster={reel.poster}
                   preload="metadata"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
@@ -183,7 +222,7 @@ export default function Yourmeme({ onNext, onPauseMusic, onResumeMusic, ...motio
                   "
                 />
 
-                {/* Speaker / Unmute button (explicit user gesture for sound) */}
+                {/* Speaker / Unmute button */}
                 <button
                   type="button"
                   onClick={(e) => {
@@ -206,9 +245,10 @@ export default function Yourmeme({ onNext, onPauseMusic, onResumeMusic, ...motio
         </div>
       </motion.div>
 
+      {/* CTA opens special video modal */}
       <motion.button
         className="mt-10 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-2xl hover:shadow-teal-500/25 transition-all"
-        onClick={onNext}
+        onClick={openSpecial}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         initial={{ opacity: 0, y: 30 }}
@@ -217,6 +257,51 @@ export default function Yourmeme({ onNext, onPauseMusic, onResumeMusic, ...motio
       >
         Our Memories📸
       </motion.button>
+
+      {/* Special video modal */}
+      {showSpecial && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center">
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+
+          {/* Modal content */}
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0, y: 10 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            className="relative z-[101] w-[90vw] max-w-3xl rounded-3xl overflow-hidden border border-white/10 bg-black/70 shadow-2xl"
+          >
+            <div className="p-4 text-center text-white/90 text-sm">
+              There’s a special video for you…
+            </div>
+
+            <div className="relative w-full aspect-video bg-black">
+              <video
+                ref={specialRef}
+                src="/reels/special.mp4"
+                className="absolute inset-0 h-full w-full object-contain bg-black"
+                playsInline
+                preload="auto"
+                // We set muted=false & play() programmatically in openSpecial()
+                onEnded={onSpecialEnded}
+              />
+              {/* Fallback Play if autoplay with sound is blocked */}
+              {specialNeedsUserPlay && (
+                <button
+                  onClick={manualPlaySpecial}
+                  className="absolute inset-0 m-auto h-12 w-24 rounded-full bg-white/90 text-black font-semibold"
+                  title="Play"
+                >
+                  Play ▶
+                </button>
+              )}
+            </div>
+
+            <div className="p-4 text-center text-white/70 text-xs">
+              It’ll continue automatically afterwards ✨
+            </div>
+          </motion.div>
+        </div>
+      )}
     </motion.div>
   )
 }
