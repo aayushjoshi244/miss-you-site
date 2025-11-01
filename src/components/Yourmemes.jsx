@@ -142,7 +142,7 @@ export default function Yourmeme({ onNext, onPauseMusic, onResumeMusic, ...motio
         className="mb-6 flex justify-center z-10"
       >
         <div className="mb-4">
-          <img src="/gifs/cute.gif" alt="cute gif" className="w-36 md:w-44" />
+          <img src="/gifs/laugh.gif" alt="cute gif" className="w-36 md:w-44" />
         </div>
       </motion.div>
 
