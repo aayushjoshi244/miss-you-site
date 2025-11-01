@@ -9,7 +9,7 @@ export default function FinalScreen({ ...motionProps }) {
     const [isTyping, setIsTyping] = useState(true)
 
     const finalMessage =
-        "Even miles apart, you're all I think about. Every second without you feels incomplete. I love your smile, your laugh, your voice — everything. You are my peace in this noisy world. No matter what happens, you'll always live in my heart. Can't wait for the day I make you completely mine. Until then, just know... I adore you more than words can ever say🌙💕"
+        "Happy Birthday My love💖, you're all I think about. Every second without you feels incomplete. I love your smile, your laugh, your voice — everything. You are my peace in this noisy world. No matter what happens, you'll always live in my heart. Can't wait for the day I make you completely mine. Until then, just know... I adore you more than words can ever say, and be happy because you shine when you smile🌙💕"
 
     useEffect(() => {
         const timer = setTimeout(() => {
