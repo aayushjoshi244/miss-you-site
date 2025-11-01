@@ -1,61 +1,67 @@
-"use client"
+"use client";
 
-import { motion, AnimatePresence } from "motion/react"
-import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect } from "react";
 
-export default function FinalScreen({ herImageSrc = "/images/16.jpg", ...motionProps }) {
+export default function FinalScreen({
+  herImageSrc = "/images/16.jpg",
+  ...motionProps
+}) {
   // --- Primary typing (your original message) ---
-  const [displayText, setDisplayText] = useState("")
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isTyping, setIsTyping] = useState(true)
+  const [displayText, setDisplayText] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
 
   const finalMessage =
-    "Happy Birthday My love💖, you're all I think about. Every second without you feels incomplete. I love your smile, your laugh, your voice — everything. You are my peace in this noisy world. No matter what happens, you'll always live in my heart. Can't wait for the day I make you completely mine. Until then, just know... I adore you more than words can ever say, and be happy because you shine when you smile🌙💕"
+    "Happy Birthday My love💖, you're all I think about. Every second without you feels incomplete. I love your smile, your laugh, your voice — everything. You are my peace in this noisy world. No matter what happens, you'll always live in my heart. Can't wait for the day I make you completely mine. Until then, just know... I adore you more than words can ever say, and be happy because you shine when you smile🌙💕";
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (currentIndex < finalMessage.length) {
-        setDisplayText((prev) => prev + finalMessage[currentIndex])
-        setCurrentIndex((prev) => prev + 1)
+        setDisplayText((prev) => prev + finalMessage[currentIndex]);
+        setCurrentIndex((prev) => prev + 1);
       } else {
-        setIsTyping(false)
+        setIsTyping(false);
       }
-    }, 30)
-    return () => clearTimeout(timer)
+    }, 30);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex])
+  }, [currentIndex]);
 
   // --- Modal state for the “Will you be with me forever?” question ---
-  const [showQuestion, setShowQuestion] = useState(false)
-  const openQuestion = () => setShowQuestion(true)
+  const [showQuestion, setShowQuestion] = useState(false);
+  const openQuestion = () => setShowQuestion(true);
 
   // --- After choosing Yes/No: show image + pink drop + second typed note ---
-  const [answered, setAnswered] = useState(false)
-  const [secondText, setSecondText] = useState("")
-  const [secondIndex, setSecondIndex] = useState(0)
+  const [answered, setAnswered] = useState(false);
+  const [secondText, setSecondText] = useState("");
+  const [secondIndex, setSecondIndex] = useState(0);
 
   const secondMessage =
-    "No matter what you choose — yes or no — I will always choose you. Once again, Happy Birthday Love💖✨, may you achieve everything in life."
+    "No matter what you choose — yes or no — I will always choose you. Once again, Happy Birthday Love💖✨, may you achieve everything in life.";
 
   useEffect(() => {
-    if (!answered) return
+    if (!answered) return;
     // type out the second message
     const t = setTimeout(() => {
       if (secondIndex < secondMessage.length) {
-        setSecondText((p) => p + secondMessage[secondIndex])
-        setSecondIndex((p) => p + 1)
+        setSecondText((p) => p + secondMessage[secondIndex]);
+        setSecondIndex((p) => p + 1);
       }
-    }, 30)
-    return () => clearTimeout(t)
-  }, [answered, secondIndex, secondMessage])
+    }, 30);
+    return () => clearTimeout(t);
+  }, [answered, secondIndex, secondMessage]);
 
   const handleAnswer = () => {
-    setShowQuestion(false)
-    setAnswered(true)
-  }
+    setShowQuestion(false);
+    setAnswered(true);
+  };
 
   return (
-    <motion.div {...motionProps} className="min-h-screen flex items-center justify-center text-center px-6 relative overflow-hidden">
+    <motion.div
+      {...motionProps}
+      className="min-h-screen flex items-center justify-center text-center px-6 relative overflow-hidden"
+    >
       {/* Pink background DROP appears only after answer */}
       <AnimatePresence>
         {answered && (
@@ -141,15 +147,15 @@ export default function FinalScreen({ herImageSrc = "/images/16.jpg", ...motionP
             >
               {/* Her image */}
               <motion.div
-                className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white/70 shadow-2xl"
+                className="w-72 h-96 md:w-80 md:h-[28rem] rounded-2xl overflow-hidden border-4 border-white/70 shadow-2xl bg-white/10"
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.6 }}
               >
                 <img
                   src={herImageSrc}
                   alt="her"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain bg-black"
                 />
               </motion.div>
 
@@ -194,7 +200,8 @@ export default function FinalScreen({ herImageSrc = "/images/16.jpg", ...motionP
                 Will you be with me forever?
               </h3>
               <p className="text-white/80 text-sm text-center mb-6">
-                Select your answer carefully — I will store it as a log in my heart.
+                Select your answer carefully — I will store it as a log in my
+                heart.
               </p>
 
               <div className="flex gap-3 justify-center">
@@ -216,5 +223,5 @@ export default function FinalScreen({ herImageSrc = "/images/16.jpg", ...motionP
         )}
       </AnimatePresence>
     </motion.div>
-  )
+  );
 }
